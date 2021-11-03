@@ -26,3 +26,6 @@ $> sudo add-apt-repository ppa:ignaciovizzo/opencv3-nonfree
 $> sudo apt install libopencv-dev  
 And then in your working directory :  
 $> cmake -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules
+
+## Complementary note
+The term "asset" *needs* to be in your *image* filename if you want it to be processed and compared.

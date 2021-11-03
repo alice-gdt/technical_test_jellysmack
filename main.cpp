@@ -113,9 +113,9 @@ int main(int argc, char **argv) {
 							if( dist > max_dist ) max_dist = dist;
 						}
 
-						cout << name << endl;
-						cout << "-- Max dist : " << max_dist << endl;
-						cout << "-- Min dist : " << min_dist << endl;
+						//cout << name << endl;
+						//cout << "-- Max dist : " << max_dist << endl;
+						//cout << "-- Min dist : " << min_dist << endl;
 
 						//-- Draw only "good" matches (i.e. whose distance is less than 2*min_dist,
 						//-- or a small arbitary value ( 0.02 ) in the event that min_dist is very
@@ -130,24 +130,27 @@ int main(int argc, char **argv) {
 						}
 
 						//-- Draw only "good" matches
-						Mat img_matches;
-						drawMatches(imgGRAY, keypoints_1, asset, keypoints_2,
-												good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
-												vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
+						//Mat img_matches;
+						//drawMatches(imgGRAY, keypoints_1, asset, keypoints_2,
+						//						good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
+						//						vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
 
 						//-- Show detected matches
-						imshow( "Good Matches", img_matches );
+						//imshow( "Good Matches", img_matches );
 
-						cout << "-- Good Match " << (int) good_matches.size() << endl;
+						//cout << "-- Good Match " << (int) good_matches.size() << endl;
 
-						if (max_dist - max_d > delta 	&&
+						/*if (max_dist - max_d > delta 	&&
 								min_dist - min_d < delta	&&
-								good_match < (int) good_matches.size()) {
+								good_match < (int) good_matches.size()) {*/
+						if (max_d < max_dist 	&&
+								min_d > min_dist) {	//&&
+								//good_match < (int) good_matches.size()) {
 							max_d = max_dist;
 							min_d = min_dist;
 							good_match = (int) good_matches.size();
 							asset_name = save_name;
-							cout << "MAX_D : " << max_d << " MIN_D : " << min_d << " MATCHES : " << good_match << " NAME : " << asset_name  << endl;
+							//cout << "AAAAAAAAAAAAAAAAAAAAAAAAAAAAH MAX_D : " << max_d << " MIN_D : " << min_d << " MATCHES : " << good_match << " NAME : " << asset_name  << endl;
 						}
 					}
 				}

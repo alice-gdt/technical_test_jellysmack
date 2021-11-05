@@ -2,14 +2,14 @@
 
 ## Compilation
 
-Do in a console:  
+Do in your working directory:  
 $> cmake  
 $> make  
 
 ## Usage
 
-Do in a console:  
-$> ./tech_test_JS ./tests/asset_1.mp4  
+For example, do in your working directory:  
+$> ./tech_test_JS ./tests/asset_1.mp4 lib_assets/
 
 'Escap' allow to quit during execution.
 
@@ -18,7 +18,7 @@ $> ./tech_test_JS ./tests/asset_1.mp4
 Do in a console:  
 $> ./tech_test_JS ./tests/asset_1.mp4 IM  
 
-IM allow to see each image of video flux. Do 'Enter' to go to next image.  
+IM allow to see each comparison between a frame and an asset. Do 'Enter' to go to next image.  
 
 ## Problems
 If you have problems with opencv2/xfeature2d.hpp, do in a console :  
@@ -28,4 +28,8 @@ And then in your working directory :
 $> cmake -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules
 
 ## Complementary note
-The term "asset" *needs* to be in your *image* filename if you want it to be processed and compared.
+The term "asset" *needs* to be in the filename of the images in your lib directory if you want them to be processed and compared.
+
+## Not done
+The orientation is not printed.  
+The bonus has not been done.

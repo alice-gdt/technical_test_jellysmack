@@ -25,6 +25,80 @@ using std::endl; using std::vector;
 using namespace cv;
 using namespace std;
 
+void browse_lib(char *lib_path, Mat imgGRAY, bool option);
+
+int main(int argc, char **argv) {
+	if (argc != 3 && argc != 4) {
+    	cout << "Input should be in the following format :"  << endl;
+    	cout << "./tech_test_JS <path>/(<*.mp4> || <*.png>) <path to assets> [IM]"  << endl;
+    	return -1;
+	}
+
+	bool option = false;
+
+	if (argc == 4) {
+		string str = argv[3];
+		if (str.compare("IM") == 0)
+			option = true;
+		else {
+			cout << "Input should be in the following format :"  << endl;
+			cout << "./tech_test_JS <path>/*.mp4 <path to assets> IM"  << endl;
+			return -1;
+		}
+	}
+
+	VideoCapture cap(argv[1]);
+	Mat scene;
+
+	if (!cap.isOpened()) {
+		scene = imread(argv[1]);
+		if (scene.empty()) {
+			cout << "Could not open the video or the image" << endl;
+			return -1;
+		}
+	}
+	if (!scene.empty())
+		imshow("Test", scene);
+
+	Mat frame;
+	Mat imgGRAY;
+	frame.convertTo(frame, CV_32F);
+	imgGRAY.convertTo(imgGRAY, CV_32F);
+
+	int i = 1;
+	bool f = false;
+	while(!f) {
+		if (!cap.isOpened()) {
+			frame = scene;
+			f = true;
+		}
+		else
+			cap >> frame;
+
+		if (frame.empty())
+			break;
+
+		cvtColor(frame, imgGRAY, COLOR_BGR2GRAY);
+
+		cout << "FRAME " << i << endl;
+		browse_lib(argv[2], imgGRAY, option);
+		i++;
+
+		if (option)
+			waitKey(0);
+		else {
+			char c = (char) waitKey(25);
+			if (c == 27)
+				break;
+		}
+	}
+
+	cap.release();
+	destroyAllWindows();
+
+	return 0;
+}
+
 void browse_lib(char *lib_path, Mat imgGRAY, bool option) {
 	Mat asset;
 	Mat descriptors_1, descriptors_2;
@@ -116,76 +190,4 @@ void browse_lib(char *lib_path, Mat imgGRAY, bool option) {
 		cout << "-- Max dist : " << max_d << endl;
 		cout << "-- Min dist : " << min_d << endl;
 		cout << "-- Good Match " << good_match << endl;
-}
-
-int main(int argc, char **argv) {
-	if (argc != 3 && argc != 4) {
-    	cout << "Input should be in the following format :"  << endl;
-    	cout << "./tech_test_JS <path>/(<*.mp4> || <*.png>) <path to assets> [IM]"  << endl;
-    	return -1;
-	}
-
-	bool option = false;
-
-	if (argc == 4) {
-		string str = argv[3];
-		if (str.compare("IM") == 0)
-			option = true;
-		else {
-			cout << "Input should be in the following format :"  << endl;
-			cout << "./tech_test_JS <path>/*.mp4 <path to assets> IM"  << endl;
-			return -1;
-		}
-	}
-
-	VideoCapture cap(argv[1]);
-	Mat scene;
-
-	if (!cap.isOpened()) {
-		scene = imread(argv[1]);
-		if (scene.empty()) {
-			cout << "Could not open the video or the image" << endl;
-			return -1;
-		}
-	}
-	if (!scene.empty())
-		imshow("Test", scene);
-
-	Mat frame;
-	Mat imgGRAY;
-	frame.convertTo(frame, CV_32F);
-	imgGRAY.convertTo(imgGRAY, CV_32F);
-
-	int i = 1;
-	bool f = false;
-	while(!f) {
-		if (!cap.isOpened()) {
-			frame = scene;
-			f = true;
-		}
-		else
-			cap >> frame;
-
-		if (frame.empty())
-			break;
-
-		cvtColor(frame, imgGRAY, COLOR_BGR2GRAY);
-
-		cout << "FRAME " << i << endl;
-		browse_lib(argv[2], imgGRAY, option);
-		i++;
-
-		if (option)
-			waitKey(0);
-		else {
-			char c = (char) waitKey(25);
-			if (c == 27)
-				break;
-		}
-	}
-
-	cap.release();
-	destroyAllWindows();
-
-	return 0;
 }
